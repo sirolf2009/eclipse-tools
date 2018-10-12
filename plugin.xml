@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            id="sirolf2009-eclipse-tools.commands.category"
+            name="sirolf2009 tools">
+      </category>
+      <command
+            categoryId="sirolf2009-eclipse-tools.commands.category"
+            id="sirolf2009-eclipse-tools.commands.MoveSelectionLeft"
+            name="Move Selection Left">
+      </command>
+      <command
+            categoryId="sirolf2009-eclipse-tools.commands.category"
+            id="sirolf2009-eclipse-tools.commands.MoveSelectionRight"
+            name="Move Selection Right">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="com.sirolf2009.eclipsetools.handlers.MoveSelectionLeft"
+            commandId="sirolf2009-eclipse-tools.commands.MoveSelectionLeft">
+      </handler>
+      <handler
+            class="com.sirolf2009.eclipsetools.handlers.MoveSelectionRight"
+            commandId="sirolf2009-eclipse-tools.commands.MoveSelectionRight">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+   </extension>
+
+</plugin>
