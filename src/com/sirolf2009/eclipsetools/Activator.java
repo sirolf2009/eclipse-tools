@@ -17,7 +17,6 @@ public class Activator implements BundleActivator {
 	 */
 	@Override
 	public void start(BundleContext bundleContext) throws Exception {
-		System.out.println("SIROLF2009 PLUGIN STARTING");
 		Activator.context = bundleContext;
 	}
 

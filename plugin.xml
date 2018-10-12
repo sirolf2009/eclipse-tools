@@ -30,8 +30,5 @@
             commandId="sirolf2009-eclipse-tools.commands.MoveSelectionRight">
       </handler>
    </extension>
-   <extension
-         point="org.eclipse.ui.bindings">
-   </extension>
 
 </plugin>

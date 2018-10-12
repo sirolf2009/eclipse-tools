@@ -7,7 +7,7 @@ import org.eclipse.jface.text.TextSelection
 import org.eclipse.ui.PlatformUI
 import org.eclipse.ui.texteditor.AbstractDecoratedTextEditor
 
-class MoveSelectionLeft2 extends AbstractHandler {
+class MoveSelectionLeft extends AbstractHandler {
 
 	override execute(ExecutionEvent event) throws ExecutionException {
 		val page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()

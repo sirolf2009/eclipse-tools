@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Sirolf2009-eclipse-tools
 Bundle-SymbolicName: sirolf2009-eclipse-tools;singleton:=true
-Bundle-Version: 0.0.1.SNAPSHOT
+Bundle-Version: 0.0.2.0
 Bundle-Activator: com.sirolf2009.eclipsetools.Activator
 Require-Bundle: org.eclipse.jface,
  org.eclipse.e4.ui.services,
@@ -13,9 +13,13 @@ Require-Bundle: org.eclipse.jface,
  org.eclipse.jface.text;bundle-version="3.13.0",
  org.eclipse.jdt.core;bundle-version="3.14.0",
  org.eclipse.jdt.ui;bundle-version="3.14.0",
- org.eclipse.xtend.lib;bundle-version="2.15.0"
+ com.google.guava,
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.xtend.lib,
+ org.eclipse.xtend.lib.macro
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Automatic-Module-Name: sirolf2009-eclipse-tools
 Bundle-ActivationPolicy: lazy
 Export-Package: com.sirolf2009.eclipsetools,
  com.sirolf2009.eclipsetools.handlers
+
