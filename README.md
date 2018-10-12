@@ -3,7 +3,7 @@
 ## TODO
 
 ### move selection left/right
-alt+up moves the current line up, so alt+left should move the text that you have selected left. If you haven't got anything selected, move the word that you're at.
+alt+up moves the current line up, so alt+left should move the text that you have selected left. If you haven't got anything selected, move the word that you're at. Support box selection mode
 
 ### param edit
 An editing mode where stuff like ctrl+left wont select the word to the left, but select the entire parameter that your caret is at. Also stuff like ctrl+delete would delete the entire parameter. Shift+end should select all params to the right, not until the end of the line. Can be used in function declaration but also function calls
