@@ -18,6 +18,16 @@
             id="sirolf2009-eclipse-tools.commands.MoveSelectionRight"
             name="Move Selection Right">
       </command>
+      <command
+            categoryId="sirolf2009-eclipse-tools.commands.category"
+            id="sirolf2009-eclipse-tools.commands.MoveParamLeft"
+            name="Move Param Left">
+      </command>
+      <command
+            categoryId="sirolf2009-eclipse-tools.commands.category"
+            id="sirolf2009-eclipse-tools.commands.MoveParamLeft"
+            name="Move Param Right">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
@@ -29,6 +39,48 @@
             class="com.sirolf2009.eclipsetools.handlers.MoveSelectionRight"
             commandId="sirolf2009-eclipse-tools.commands.MoveSelectionRight">
       </handler>
+      <handler
+            class="com.sirolf2009.eclipsetools.handlers.MoveParamLeft"
+            commandId="sirolf2009-eclipse-tools.commands.MoveParamLeft">
+      </handler>
+      <handler
+            class="com.sirolf2009.eclipsetools.handlers.MoveParamRight"
+            commandId="sirolf2009-eclipse-tools.commands.MoveParamRight">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.eclipse.ui.main.menu">
+         <menu
+               label="Eclipse Tools">
+            <command
+                  commandId="sirolf2009-eclipse-tools.commands.MoveSelectionLeft"
+                  label="Move Selection Left"
+                  style="push"
+                  tooltip="move selection left">
+            </command>
+            <command
+                  commandId="sirolf2009-eclipse-tools.commands.MoveSelectionLeft"
+                  label="Move Selection Right"
+                  style="push"
+                  tooltip="move selection right">
+            </command>
+            <command
+                  commandId="sirolf2009-eclipse-tools.commands.MoveParamLeft"
+                  label="Move Param Left"
+                  style="push"
+                  tooltip="move param left">
+            </command>
+            <command
+                  commandId="sirolf2009-eclipse-tools.commands.MoveParamRight"
+                  label="Move Param Right"
+                  style="push"
+                  tooltip="move param right">
+            </command>
+         </menu>
+      </menuContribution>
    </extension>
 
 </plugin>

@@ -5,13 +5,13 @@ import org.eclipse.core.commands.ExecutionEvent
 import org.eclipse.core.commands.ExecutionException
 import org.eclipse.jface.text.TextSelection
 import org.eclipse.ui.PlatformUI
-import org.eclipse.ui.texteditor.AbstractDecoratedTextEditor
+import org.eclipse.ui.texteditor.ITextEditor
 
 class MoveSelectionLeft extends AbstractHandler {
 
 	override execute(ExecutionEvent event) throws ExecutionException {
 		val page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-		val editor = page.getActiveEditor() as AbstractDecoratedTextEditor
+		val editor = page.getActiveEditor() as ITextEditor
 		val selectionProvider = editor.getSelectionProvider()
 		val selection = editor.getSelectionProvider().getSelection()
 		if(!selection.isEmpty() && selection instanceof TextSelection) {
@@ -19,10 +19,14 @@ class MoveSelectionLeft extends AbstractHandler {
 			val selectedText = textSelection.getText()
 			val document = editor.getDocumentProvider().getDocument(editor.getEditorInput())
 
-			if(textSelection.getOffset() > 0) {
-				val charToLeft = document.getChar(textSelection.getOffset() - 1)
-				document.replace(textSelection.getOffset() - 1, textSelection.getLength() + 1, selectedText + charToLeft)
-				selectionProvider.setSelection(new TextSelection(document, textSelection.getOffset() - 1, textSelection.getLength()))
+			if(textSelection.getLength() == 0) {
+				new MoveParamLeft().execute(event)
+			} else {
+				if(textSelection.getOffset() > 0) {
+					val charToLeft = document.getChar(textSelection.getOffset() - 1)
+					document.replace(textSelection.getOffset() - 1, textSelection.getLength() + 1, selectedText + charToLeft)
+					selectionProvider.setSelection(new TextSelection(document, textSelection.getOffset() - 1, textSelection.getLength()))
+				}
 			}
 		}
 		return null
