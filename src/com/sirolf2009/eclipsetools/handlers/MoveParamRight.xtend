@@ -28,8 +28,8 @@ class MoveParamRight extends AbstractHandler {
 			val currentParameter = currentMethod.parameters().findFirst[toString().equals(currentParam.toString())] as VariableDeclaration
 			moveParamDeclaration(cu, currentMethod, currentParameter, editor, document)
 		} catch(NullPointerException e) {
-			val argument = currentNode.methodInvocationArgument()
-			val methodInvocation = currentNode.methodInvocation()
+			val argument = currentNode.methodInvocationArgument(currentNode)
+			val methodInvocation = currentNode.methodInvocation(currentNode)
 			moveParamInvocation(cu, methodInvocation, argument, editor, document)
 		}
 		return null
@@ -81,19 +81,19 @@ class MoveParamRight extends AbstractHandler {
 		}
 	}
 
-	def static Expression methodInvocationArgument(ASTNode astNode) {
-		if(astNode.getParent() instanceof MethodInvocation) {
-			return astNode as Expression
+	def static Expression methodInvocationArgument(ASTNode astNode, ASTNode child) {
+		if(astNode instanceof MethodInvocation && (astNode as MethodInvocation).arguments().contains(child)) {
+			return child as Expression
 		} else {
-			return astNode.getParent().methodInvocationArgument()
+			return astNode.getParent().methodInvocationArgument(astNode)
 		}
 	}
 
-	def static MethodInvocation methodInvocation(ASTNode astNode) {
-		if(astNode instanceof MethodInvocation) {
-			return astNode
+	def static MethodInvocation methodInvocation(ASTNode astNode, ASTNode child) {
+		if(astNode instanceof MethodInvocation && (astNode as MethodInvocation).arguments().contains(child)) {
+			return astNode as MethodInvocation
 		} else {
-			return astNode.getParent().methodInvocation()
+			return astNode.getParent().methodInvocation(astNode)
 		}
 	}
 

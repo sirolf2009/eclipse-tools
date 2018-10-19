@@ -14,22 +14,30 @@ import org.eclipse.jface.text.TextSelection
 import org.eclipse.ui.texteditor.ITextEditor
 import org.eclipse.jdt.core.dom.Expression
 
+import static com.sirolf2009.eclipsetools.Logger.*
+
 class MoveParamLeft extends AbstractHandler {
 
 	override execute(ExecutionEvent event) throws ExecutionException {
+		info("move param left called")
 		val editor = Util.getCurrentEditor()
 		val document = editor.getDocumentProvider().getDocument(editor.getEditorInput())
 		val cu = Util.getCurrentCU()
 		val currentNode = Util.getCurrentASTNode(cu)
+		
+		info('''Selection: «currentNode»''')
 
 		try {
 			val currentParam = currentNode.variableDeclaration()
 			val currentMethod = currentNode.methodDeclaration()
 			val currentParameter = currentMethod.parameters().findFirst[toString().equals(currentParam.toString())] as VariableDeclaration
+			info('''Moving param «currentParameter» in «currentMethod» to the left''')
 			moveParamDeclaration(cu, currentMethod, currentParameter, editor, document)
 		} catch(NullPointerException e) {
-			val argument = currentNode.methodInvocationArgument()
-			val methodInvocation = currentNode.methodInvocation()
+			info('''Current node: «currentNode»''')
+			val argument = currentNode.methodInvocationArgument(currentNode)
+			val methodInvocation = currentNode.methodInvocation(currentNode)
+			info('''Moving arg «argument» in «methodInvocation» to the left''')
 			moveParamInvocation(cu, methodInvocation, argument, editor, document)
 		}
 		return null
@@ -44,6 +52,7 @@ class MoveParamLeft extends AbstractHandler {
 			currentMethod.parameters().remove(currentParam)
 			currentMethod.parameters().add(index - 1, currentParam)
 			currentMethod.parameters().add(index, paramToLeft)
+			info('''Swapped «paramToLeft» and «currentParam»''')
 			val selection = Util.getCurrentSelection()
 			cu.rewrite(document, null).apply(document)
 			editor.getSelectionProvider().setSelection(new TextSelection(document, selection.getOffset() - paramToLeft.getLength() - 2, selection.getLength()))
@@ -59,9 +68,14 @@ class MoveParamLeft extends AbstractHandler {
 			currentMethod.arguments().remove(currentParam)
 			currentMethod.arguments().add(index - 1, currentParam)
 			currentMethod.arguments().add(index, paramToLeft)
+			info('''Swapped «paramToLeft» and «currentParam»''')
 			val selection = Util.getCurrentSelection()
 			cu.rewrite(document, null).apply(document)
 			editor.getSelectionProvider().setSelection(new TextSelection(document, selection.getOffset() - paramToLeft.getLength() - 2, selection.getLength()))
+		} else if(index < 0) {
+			info('''Param «currentParam» does not exist in «currentMethod»''')
+		} else {
+			info('''Param «currentParam» is already the left-most param in «currentMethod»''')
 		}
 	}
 
@@ -81,19 +95,19 @@ class MoveParamLeft extends AbstractHandler {
 		}
 	}
 
-	def static Expression methodInvocationArgument(ASTNode astNode) {
-		if(astNode.getParent() instanceof MethodInvocation) {
-			return astNode as Expression
+	def static Expression methodInvocationArgument(ASTNode astNode, ASTNode child) {
+		if(astNode instanceof MethodInvocation && (astNode as MethodInvocation).arguments().contains(child)) {
+			return child as Expression
 		} else {
-			return astNode.getParent().methodInvocationArgument()
+			return astNode.getParent().methodInvocationArgument(astNode)
 		}
 	}
 
-	def static MethodInvocation methodInvocation(ASTNode astNode) {
-		if(astNode instanceof MethodInvocation) {
-			return astNode
+	def static MethodInvocation methodInvocation(ASTNode astNode, ASTNode child) {
+		if(astNode instanceof MethodInvocation && (astNode as MethodInvocation).arguments().contains(child)) {
+			return astNode as MethodInvocation
 		} else {
-			return astNode.getParent().methodInvocation()
+			return astNode.getParent().methodInvocation(astNode)
 		}
 	}
 
